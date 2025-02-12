@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monopoly - Tablero</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+    <style>
+        body {
+            background-color: #e0f7fa;
+            font-family: 'Luckiest Guy', sans-serif;
+            background-image: url('monopoly-background.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 0;
+        }
+
+        .tablero {
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .player-name {
+            font-size: 26px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #cartasContainer {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-top: 20px;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .carta {
+            width: 220px;
+            height: 140px;
+            border: 2px solid #00796b;
+            border-radius: 12px;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            cursor: move;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+            position: relative;
+        }
+
+        .carta:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Efecto al arrastrar */
+        .carta:active {
+            transform: scale(1.1);
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Indicador de carta jugable */
+        .carta.pulse {
+            animation: pulseAnimation 1s infinite;
+        }
+
+        @keyframes pulseAnimation {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .carta-header {
+            background-color: #ffeb3b;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+            margin-bottom: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .carta-content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            color: #333;
+            padding: 10px;
+            text-align: center;
+            overflow-wrap: break-word;
+        }
+
+        /* Icono especial */
+        .special-icon {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 18px;
+            color: #ffeb3b;
+        }
+
+        .column-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .drop-area {
+            width: 48%;
+            height: 300px;
+            border: 2px solid #00796b;
+            padding: 10px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            background-color: rgba(240, 240, 240, 0.9);
+            overflow-y: auto;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .drop-area:hover {
+            background-color: rgba(200, 230, 201, 0.8);
+        }
+
+        .drop-area .carta {
+            background-color: #f9fbe7;
+            border-color: #ff9800;
+            transition: transform 0.2s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">        
+        <div class="tablero text-center">
+            <h1 class="display-4">Monopoly</h1>
+            <div id="playerLeft" class="player-name position-absolute" style="left: 20px; top: 20px;"></div>
+            <div id="playerRight" class="player-name position-absolute" style="right: 20px; top: 20px;"></div>
+            
+            <h2 class="mt-4">Cartas del Monopoly:</h2>
+            <div id="cartasContainer" class="cartas-fila">
+            </div>
+
+            <div class="column-container">
+                <div class="drop-area" id="dropLeft" ondrop="drop(event, 'left')" ondragover="allowDrop(event)">
+                    <h3>Cartas de <span id="playerNameLeft"></span></h3>
+                    <div class="player-cards" id="playerCardsLeft"></div>
+                </div>
+
+                <div class="drop-area" id="dropRight" ondrop="drop(event, 'right')" ondragover="allowDrop(event)">
+                    <h3>Cartas de <span id="playerNameRight"></span></h3>
+                    <div class="player-cards" id="playerCardsRight"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="tablero.js"></script>
+</body>
+</html>
